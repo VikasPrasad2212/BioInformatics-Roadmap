@@ -1,4 +1,9 @@
 import { DogmaStep } from '../types';
+import dnaReplicationImg from '../assets/images/dna_replication_step_1787721811902.jpg';
+import transcriptionImg from '../assets/images/transcription_step_1787721835918.jpg';
+import rnaProcessingImg from '../assets/images/rna_processing_step_1787721854420.jpg';
+import translationImg from '../assets/images/translation_step_1787721869520.jpg';
+import centralDogmaOverviewImg from '../assets/images/central_dogma_overview_1787721789446.jpg';
 
 export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
   {
@@ -7,7 +12,7 @@ export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
     title: 'DNA Replication',
     subtitle: 'Copying the Master Genetic Blueprint',
     shortTag: 'DNA ➔ DNA',
-    imageSrc: '/src/assets/images/dna_replication_step_1787721811902.jpg',
+    imageSrc: dnaReplicationImg,
     imageAlt: 'DNA Replication Fork with Helicase, DNA Polymerase, and Okazaki Fragments',
     location: 'Nucleus',
     cellularPhase: 'S Phase (Synthesis) of Interphase',
@@ -131,7 +136,7 @@ export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
     title: 'Transcription',
     subtitle: 'Rewriting DNA into Messenger RNA',
     shortTag: 'DNA ➔ pre-mRNA',
-    imageSrc: '/src/assets/images/transcription_step_1787721835918.jpg',
+    imageSrc: transcriptionImg,
     imageAlt: 'Transcription Bubble with RNA Polymerase synthesising single-stranded RNA',
     location: 'Nucleus',
     cellularPhase: 'Throughout G1 and G2 phases of cell life',
@@ -227,7 +232,7 @@ export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
     title: 'RNA Processing & Splicing',
     subtitle: 'Maturing pre-mRNA for Nuclear Export (Eukaryotes)',
     shortTag: 'pre-mRNA ➔ Mature mRNA',
-    imageSrc: '/src/assets/images/rna_processing_step_1787721854420.jpg',
+    imageSrc: rnaProcessingImg,
     imageAlt: 'RNA Splicing and Capping: Spliceosome removing introns and adding 5 cap and poly-A tail',
     location: 'Nucleus',
     cellularPhase: 'Co-transcriptional / Post-transcriptional',
@@ -336,7 +341,7 @@ export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
     title: 'Translation',
     subtitle: 'Decoding mRNA into a Functional Polypeptide Chain',
     shortTag: 'mRNA ➔ Protein',
-    imageSrc: '/src/assets/images/translation_step_1787721869520.jpg',
+    imageSrc: translationImg,
     imageAlt: 'Ribosome with A, P, E sites translating mRNA into a folding amino acid polypeptide chain',
     location: 'Cytoplasm / Rough Endoplasmic Reticulum',
     cellularPhase: 'Constant activity in living cells',
@@ -441,7 +446,7 @@ export const CENTRAL_DOGMA_STEPS: DogmaStep[] = [
     title: 'Protein Folding & Exceptions',
     subtitle: 'From Linear Chains to 3D Shape & Non-Canonical Dogma Flows',
     shortTag: 'Polypeptide ➔ 3D Structure + Exceptions',
-    imageSrc: '/src/assets/images/central_dogma_overview_1787721789446.jpg',
+    imageSrc: centralDogmaOverviewImg,
     imageAlt: 'Overview of the Central Dogma showing full pathway and folding in eukaryotic cell',
     location: 'Cytoplasm / Endoplasmic Reticulum / Golgi',
     cellularPhase: 'Immediately following or during translation',

@@ -3,6 +3,7 @@ import { StepId } from '../types';
 import { CENTRAL_DOGMA_STEPS } from '../data/centralDogmaData';
 import { ImageModal } from './ImageModal';
 import { ArrowRight, ZoomIn, Sparkles, Dna, FileText, Scissors, Cpu, Shapes, HelpCircle, Layers, CheckCircle2 } from 'lucide-react';
+import centralDogmaOverviewImg from '../assets/images/central_dogma_overview_1787721789446.jpg';
 
 interface OverviewViewProps {
   onSelectStep: (stepId: StepId) => void;
@@ -172,7 +173,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectStep }) => {
               onClick={() => setIsModalOpen(true)}
             >
               <img
-                src="/src/assets/images/central_dogma_overview_1787721789446.jpg"
+                src={centralDogmaOverviewImg}
                 alt="Central Dogma in Eukaryotic Cell: DNA in nucleus to protein in cytoplasm"
                 referrerPolicy="no-referrer"
                 className="w-full h-auto object-cover max-h-[380px] group-hover:scale-105 transition-transform duration-500"
@@ -320,7 +321,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectStep }) => {
       <ImageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        imageSrc="/src/assets/images/central_dogma_overview_1787721789446.jpg"
+        imageSrc={centralDogmaOverviewImg}
         imageAlt="Central Dogma in Eukaryotic Cell: DNA in nucleus to protein in cytoplasm"
         title="Central Dogma Macro Organization"
         hotspots={overviewHotspots}
