@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { StepId } from '../types';
 import { CENTRAL_DOGMA_STEPS } from '../data/centralDogmaData';
 import { ImageModal } from './ImageModal';
-import { ArrowRight, ZoomIn, Sparkles, Dna, FileText, Scissors, Cpu, Shapes, HelpCircle, Layers, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ZoomIn, Sparkles, Dna, FileText, Scissors, Cpu, Shapes, HelpCircle, Layers, CheckCircle2, Eye, LayoutGrid } from 'lucide-react';
+import { InfographicDiagram } from './infographics/InfographicDiagrams';
 import centralDogmaOverviewImg from '../assets/images/central_dogma_overview_1787721789446.jpg';
 
 interface OverviewViewProps {
@@ -11,6 +12,8 @@ interface OverviewViewProps {
 
 export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectStep }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [heroMode, setHeroMode] = useState<'render' | 'vector'>('render');
+  const [imgError, setImgError] = useState(false);
 
   const stepsList = [
     {
@@ -166,27 +169,68 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectStep }) => {
             </div>
           </div>
 
-          {/* Right Image Column */}
-          <div className="lg:col-span-7 relative p-4 lg:p-6 flex items-center justify-center">
-            <div
-              className="relative group cursor-pointer overflow-hidden rounded-2xl border border-stone-700/80 shadow-2xl bg-stone-950"
-              onClick={() => setIsModalOpen(true)}
-            >
-              <img
-                src={centralDogmaOverviewImg}
-                alt="Central Dogma in Eukaryotic Cell: DNA in nucleus to protein in cytoplasm"
-                referrerPolicy="no-referrer"
-                className="w-full h-auto object-cover max-h-[380px] group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-4">
-                <span className="text-xs font-semibold text-white">
-                  Click to inspect full diagram & hotspots
-                </span>
-                <span className="p-1.5 rounded-lg bg-white/20 text-white backdrop-blur">
-                  <ZoomIn className="w-4 h-4" />
+          {/* Right Image / Architecture Column */}
+          <div className="lg:col-span-7 relative p-4 lg:p-6 flex flex-col justify-center">
+            {/* View Mode Switcher Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-bold text-stone-200 uppercase tracking-wider">
+                  Scientific Macro Organization
                 </span>
               </div>
+              <div className="flex items-center bg-stone-900/90 border border-stone-700/80 rounded-xl p-1 shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setHeroMode('render')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                    heroMode === 'render' && !imgError
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200'
+                  }`}
+                >
+                  <Eye className="w-3.5 h-3.5" /> High-Res Render
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHeroMode('vector')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                    heroMode === 'vector' || imgError
+                      ? 'bg-indigo-600 text-white shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200'
+                  }`}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" /> Vector Architecture
+                </button>
+              </div>
             </div>
+
+            {heroMode === 'render' && !imgError ? (
+              <div
+                className="relative group cursor-pointer overflow-hidden rounded-2xl border border-stone-700/80 shadow-2xl bg-stone-950 min-h-[260px] flex items-center justify-center"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <img
+                  src={centralDogmaOverviewImg}
+                  alt="Central Dogma in Eukaryotic Cell: DNA in nucleus to protein in cytoplasm"
+                  referrerPolicy="no-referrer"
+                  onError={() => setImgError(true)}
+                  className="w-full h-auto object-cover max-h-[380px] group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-4">
+                  <span className="text-xs font-semibold text-white">
+                    Click to inspect full diagram & hotspots
+                  </span>
+                  <span className="p-1.5 rounded-lg bg-white/20 text-white backdrop-blur">
+                    <ZoomIn className="w-4 h-4" />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-stone-700/80 shadow-2xl overflow-hidden">
+                <InfographicDiagram type="central-flow" />
+              </div>
+            )}
           </div>
         </div>
       </div>

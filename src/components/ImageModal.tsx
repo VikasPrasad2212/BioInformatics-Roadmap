@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, ZoomIn, ZoomOut, RotateCcw, Info } from 'lucide-react';
 import { StepHotspot } from '../types';
+import { InfographicDiagram } from './infographics/InfographicDiagrams';
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export const ImageModal: React.FC<ImageModalProps> = ({
 }) => {
   const [zoom, setZoom] = useState(1);
   const [activeHotspot, setActiveHotspot] = useState<StepHotspot | null>(null);
+  const [imgError, setImgError] = useState(false);
 
   if (!isOpen) return null;
 
@@ -94,35 +96,42 @@ export const ImageModal: React.FC<ImageModalProps> = ({
 
         {/* Image Canvas */}
         <div className="relative flex-1 overflow-auto bg-stone-950 flex items-center justify-center p-6 min-h-[420px]">
-          <div
-            className="relative transition-transform duration-200 origin-center"
-            style={{ transform: `scale(${zoom})` }}
-          >
-            <img
-              src={imageSrc}
-              alt={imageAlt}
-              referrerPolicy="no-referrer"
-              className="max-w-full max-h-[65vh] object-contain rounded-lg shadow-xl"
-            />
+          {imgError ? (
+            <div className="w-full max-w-4xl p-2">
+              <InfographicDiagram type="central-flow" />
+            </div>
+          ) : (
+            <div
+              className="relative transition-transform duration-200 origin-center"
+              style={{ transform: `scale(${zoom})` }}
+            >
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                referrerPolicy="no-referrer"
+                onError={() => setImgError(true)}
+                className="max-w-full max-h-[65vh] object-contain rounded-lg shadow-xl"
+              />
 
-            {/* Hotspots */}
-            {hotspots.map((spot) => (
-              <button
-                key={spot.id}
-                id={`hotspot-${spot.id}`}
-                onClick={() => setActiveHotspot(spot)}
-                className={`absolute w-7 h-7 -ml-3.5 -mt-3.5 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-lg ring-4 ${
-                  activeHotspot?.id === spot.id
-                    ? 'bg-amber-400 text-stone-950 ring-amber-400/50 scale-125 animate-bounce'
-                    : 'bg-indigo-600 text-white ring-indigo-500/40 hover:scale-110 hover:bg-indigo-500'
-                }`}
-                style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                title={spot.label}
-              >
-                <Info className="w-3.5 h-3.5" />
-              </button>
-            ))}
-          </div>
+              {/* Hotspots */}
+              {hotspots.map((spot) => (
+                <button
+                  key={spot.id}
+                  id={`hotspot-${spot.id}`}
+                  onClick={() => setActiveHotspot(spot)}
+                  className={`absolute w-7 h-7 -ml-3.5 -mt-3.5 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-lg ring-4 ${
+                    activeHotspot?.id === spot.id
+                      ? 'bg-amber-400 text-stone-950 ring-amber-400/50 scale-125 animate-bounce'
+                      : 'bg-indigo-600 text-white ring-indigo-500/40 hover:scale-110 hover:bg-indigo-500'
+                  }`}
+                  style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+                  title={spot.label}
+                >
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Hotspot details banner */}

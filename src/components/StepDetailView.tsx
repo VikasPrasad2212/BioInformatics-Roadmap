@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DogmaStep, StepId } from '../types';
 import { ImageModal } from './ImageModal';
+import { InfographicDiagram } from './infographics/InfographicDiagrams';
 import {
   ReplicationSimulator,
   TranscriptionSimulator,
@@ -39,11 +40,13 @@ export const StepDetailView: React.FC<StepDetailViewProps> = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [quickCheckAnswer, setQuickCheckAnswer] = useState<number | null>(null);
   const [showAnswerFeedback, setShowAnswerFeedback] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   // Reset state when step changes
   useEffect(() => {
     setQuickCheckAnswer(null);
     setShowAnswerFeedback(false);
+    setImgError(false);
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
@@ -180,35 +183,56 @@ export const StepDetailView: React.FC<StepDetailViewProps> = ({
         </div>
 
         {/* Medical Textbook Illustration with Hotspot pinpoints */}
-        <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-950 shadow-md">
-          <img
-            src={step.imageSrc}
-            alt={step.imageAlt}
-            referrerPolicy="no-referrer"
-            className="w-full h-auto max-h-[460px] object-cover mx-auto"
-          />
+        <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-950 shadow-md min-h-[240px] flex items-center justify-center">
+          {imgError ? (
+            <div className="w-full p-4">
+              <InfographicDiagram
+                type={
+                  step.id === 'replication'
+                    ? 'replication-fork'
+                    : step.id === 'transcription'
+                    ? 'transcription-bubble'
+                    : step.id === 'rna-processing'
+                    ? 'rna-splicing-lariat'
+                    : step.id === 'translation'
+                    ? 'ribosome-translation'
+                    : 'protein-hierarchy'
+                }
+              />
+            </div>
+          ) : (
+            <>
+              <img
+                src={step.imageSrc}
+                alt={step.imageAlt}
+                referrerPolicy="no-referrer"
+                onError={() => setImgError(true)}
+                className="w-full h-auto max-h-[460px] object-cover mx-auto"
+              />
 
-          {/* Hotspot buttons on the image */}
-          {step.hotspots.map((spot) => (
-            <button
-              key={spot.id}
-              onClick={() => setIsImageModalOpen(true)}
-              className="absolute w-7 h-7 -ml-3.5 -mt-3.5 rounded-full bg-emerald-500 text-stone-950 font-bold flex items-center justify-center text-xs shadow-lg ring-4 ring-emerald-400/40 hover:scale-125 transition-transform"
-              style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-              title={`${spot.label}: ${spot.description}`}
-            >
-              <Info className="w-3.5 h-3.5" />
-            </button>
-          ))}
+              {/* Hotspot buttons on the image */}
+              {step.hotspots.map((spot) => (
+                <button
+                  key={spot.id}
+                  onClick={() => setIsImageModalOpen(true)}
+                  className="absolute w-7 h-7 -ml-3.5 -mt-3.5 rounded-full bg-emerald-500 text-stone-950 font-bold flex items-center justify-center text-xs shadow-lg ring-4 ring-emerald-400/40 hover:scale-125 transition-transform"
+                  style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+                  title={`${spot.label}: ${spot.description}`}
+                >
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              ))}
 
-          <div className="absolute bottom-3 right-3">
-            <button
-              onClick={() => setIsImageModalOpen(true)}
-              className="px-3 py-1.5 rounded-lg bg-stone-900/80 backdrop-blur text-white text-xs font-semibold hover:bg-stone-900 flex items-center gap-1.5 border border-stone-700 shadow"
-            >
-              <ZoomIn className="w-3.5 h-3.5" /> Expand & Annotate
-            </button>
-          </div>
+              <div className="absolute bottom-3 right-3">
+                <button
+                  onClick={() => setIsImageModalOpen(true)}
+                  className="px-3 py-1.5 rounded-lg bg-stone-900/80 backdrop-blur text-white text-xs font-semibold hover:bg-stone-900 flex items-center gap-1.5 border border-stone-700 shadow"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" /> Expand & Annotate
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
