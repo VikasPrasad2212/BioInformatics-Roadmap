@@ -1,0 +1,6 @@
+{
+  "name": "Central Dogma of Molecular Biology",
+  "description": "An interactive masterclass on the Central Dogma and AI-Era Molecular Biology: 3D WebGL molecule viewer, AI-proof biotech career readiness masterclass (5 career moats, AlphaFold3/RFdiffusion failure diagnostics, technical interview simulator), chemical bonds explorer, replication, transcription, translation, codon decipherer, and molecular dictionary.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
